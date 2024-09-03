@@ -11,6 +11,7 @@ from django_enumfield.exceptions import InvalidStatusOperationError
 from django_enumfield.forms.fields import EnumChoiceField
 
 from .. import validators
+from ..enum import Enum as EnumFieldEnum
 
 try:
     from functools import partialmethod as _partialmethod
@@ -37,7 +38,7 @@ class EnumField(models.IntegerField):
 
     default_error_messages = models.IntegerField.default_error_messages  # type: ignore
 
-    def __init__(self, enum, *args, **kwargs):
+    def __init__(self, *args, enum: EnumFieldEnum, **kwargs):
         kwargs.setdefault("choices", enum.choices())
         if enum.default() is not None:
             kwargs.setdefault("default", enum.default())
